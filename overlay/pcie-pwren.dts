@@ -1,0 +1,18 @@
+/dts-v1/;
+/plugin/;
+
+/*
+ * Orange Pi Zero 3W: PCIe sideband GPIOs missing from the vendor DT.
+ *   PCIE_PWR_EN (FPC pin 13) = PD23
+ *   PCIE_RST_B  (FPC pin 16) = PD22 (PERST#)
+ * Same layout as the Orange Pi 4 Pro (which also has wake on PD21).
+ */
+/ {
+	fragment@0 {
+		target-path = "/soc@3000000/pcie@6000000";
+		__overlay__ {
+			power-gpios = <&pio 3 23 0>; /* PD23, active high */
+			reset-gpios = <&pio 3 22 0>; /* PD22, as in the OPi 4 Pro DT */
+		};
+	};
+};
